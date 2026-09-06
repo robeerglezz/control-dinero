@@ -1,29 +1,13 @@
 # MiDinero — PWA sincronizada
 
-PWA móvil-first para controlar ingresos y gastos.
+PWA móvil para controlar ingresos y gastos. Los movimientos se guardan localmente y, cuando el usuario inicia sesión, se sincronizan con Supabase. Antes de subir el contenido de cada movimiento, la PWA lo cifra en el navegador con AES-GCM; la clave se deriva de la contraseña mediante PBKDF2.
 
-## Funciones
-- Registro paso a paso: tipo → cantidad → concepto/categoría → método/fecha → revisión.
-- Saldo, ingresos, gastos, resumen mensual e historial.
-- Búsqueda, filtros, borrado y exportación CSV.
-- Inicio de sesión con email y contraseña.
-- Sincronización entre iPhone, PC y otros dispositivos mediante Supabase.
-- Los movimientos se cifran en el navegador con AES-256-GCM antes de subirse. La base de datos no guarda el concepto/categoría/método en texto legible.
-- RLS: cada usuario solo puede leer/escribir sus propios registros.
-- Copia local para tolerar cortes de conexión.
+## Configuración
+1. En Supabase ejecuta `supabase.sql`.
+2. Edita `config.js` con la URL del proyecto y la Publishable key.
+3. Sube todos los archivos a GitHub Pages o a cualquier hosting HTTPS.
 
-## Configuración de Supabase
-1. Crea un proyecto en Supabase.
-2. En **SQL Editor**, ejecuta `supabase.sql`.
-3. Copia `config.example.js` a `config.js`.
-4. En `config.js`, pon la URL del proyecto y la clave pública/anon del proyecto.
-5. Sube todos los archivos a GitHub Pages.
+No publiques nunca una `sb_secret_...`.
 
-### Importante sobre el cifrado
-La contraseña de tu cuenta se usa para derivar la clave de cifrado de los movimientos mediante PBKDF2 + SHA-256. La clave no se envía a Supabase. Si pierdes la contraseña, los movimientos cifrados no se pueden recuperar desde la nube.
-
-## Datos existentes
-Al iniciar sesión, si ya tenías movimientos guardados localmente, la app intenta subirlos a tu cuenta y después descarga la copia sincronizada.
-
-## Supabase gratis
-La aplicación usa el cliente web de Supabase. El alojamiento/base de datos está sujeto a los límites y condiciones vigentes del plan de Supabase.
+## Importante sobre la contraseña
+La contraseña no se almacena en MiDinero. Se usa para derivar la clave de cifrado. Si borras la caché o cambias de dispositivo, inicia sesión con la misma contraseña para poder descifrar los movimientos.
