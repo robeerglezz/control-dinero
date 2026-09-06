@@ -18,52 +18,27 @@
   <div><span class="eyebrow">CONTROL PERSONAL</span><h1>MiDinero</h1></div>
   <button id="themeBtn" class="iconbtn" aria-label="Cambiar tema">☾</button>
 </header>
-
 <main>
-<section class="hero card">
-  <span>Saldo total</span>
-  <strong id="balance">0,00 €</strong>
-  <div class="stats">
-    <div><small>Ingresos</small><b id="income">0,00 €</b></div>
-    <div><small>Gastos</small><b id="expense">0,00 €</b></div>
-  </div>
-</section>
-
-<div class="actions">
-  <button class="primary" id="addIncome">＋ Ingreso</button>
-  <button class="danger" id="addExpense">− Gasto</button>
-</div>
-
-<section class="card">
-  <div class="sectionhead"><h2>Este mes</h2><span id="monthBalance">0,00 €</span></div>
-  <div class="bar"><i id="incomeBar"></i><i id="expenseBar"></i></div>
-</section>
-
-<section>
-  <div class="sectionhead"><h2>Movimientos</h2><button class="textbtn" id="exportBtn">Exportar</button></div>
-  <div class="filters">
-    <input id="search" placeholder="Buscar movimiento…">
-    <select id="filter"><option value="all">Todos</option><option value="income">Ingresos</option><option value="expense">Gastos</option></select>
-  </div>
-  <div id="list"></div>
-</section>
+<section class="hero card"><span>Saldo total</span><strong id="balance">0,00 €</strong><div class="stats"><div><small>Ingresos</small><b id="income">0,00 €</b></div><div><small>Gastos</small><b id="expense">0,00 €</b></div></div></section>
+<div class="actions"><button class="primary" id="addIncome">＋ Ingreso</button><button class="danger" id="addExpense">− Gasto</button></div>
+<section class="card month-card"><div class="sectionhead"><h2>Este mes</h2><span id="monthBalance">0,00 €</span></div><div class="bar"><i id="incomeBar"></i><i id="expenseBar"></i></div></section>
+<section><div class="sectionhead"><h2>Movimientos</h2><button class="textbtn" id="exportBtn">Exportar</button></div><div class="filters"><input id="search" placeholder="Buscar…" autocomplete="off"><select id="filter"><option value="all">Todos</option><option value="income">Ingresos</option><option value="expense">Gastos</option></select></div><div id="list"></div></section>
 </main>
 </div>
 
-<div class="sheet hidden" id="sheet">
+<div class="sheet hidden" id="sheet" aria-hidden="true">
   <div class="backdrop" id="closeSheet"></div>
-  <form class="modal card" id="form">
-    <div class="modalhead"><h2 id="formTitle">Nuevo movimiento</h2><button type="button" class="iconbtn" id="x">×</button></div>
-    <div class="seg"><button type="button" data-type="income">Ingreso</button><button type="button" data-type="expense">Gasto</button></div>
-    <label>Importe<input id="amount" inputmode="decimal" type="number" step="0.01" min="0.01" required placeholder="0,00"></label>
-    <label>Concepto<input id="concept" maxlength="80" required placeholder="Ej. Cena, trabajo web…"></label>
-    <label>Categoría<select id="category"></select></label>
-    <label>Método<select id="method"><option>Banco</option><option>Tarjeta</option><option>Efectivo</option><option>Bizum</option><option>Otro</option></select></label>
-    <label>Fecha<input id="date" type="datetime-local" required></label>
-    <button class="save" type="submit">Guardar movimiento</button>
+  <form class="modal" id="form" novalidate>
+    <div class="modalhead"><button type="button" class="backbtn" id="backStep">‹</button><div class="stepinfo"><span id="stepLabel">Paso 1 de 4</span><div class="progress"><i id="progressBar"></i></div></div><button type="button" class="iconbtn closebtn" id="x" aria-label="Cerrar">×</button></div>
+    <div class="wizard">
+      <section class="step active" data-step="1"><div class="stepcopy"><span class="mini">MOVIMIENTO</span><h2 id="formTitle">Nuevo gasto</h2><p>¿Qué quieres registrar?</p></div><div class="typecards"><button type="button" class="typecard income-card" data-type="income"><span>＋</span><b>Ingreso</b><small>Dinero que recibes</small></button><button type="button" class="typecard expense-card" data-type="expense"><span>−</span><b>Gasto</b><small>Dinero que pagas</small></button></div></section>
+      <section class="step" data-step="2"><div class="stepcopy"><span class="mini">CANTIDAD</span><h2>¿Cuánto?</h2><p>Introduce el importe del movimiento.</p></div><label class="moneyinput"><span>€</span><input id="amount" inputmode="decimal" type="number" step="0.01" min="0.01" required placeholder="0,00" autocomplete="off"></label><p class="error" id="amountError"></p></section>
+      <section class="step" data-step="3"><div class="stepcopy"><span class="mini">DETALLES</span><h2>¿En qué?</h2><p>Dale un nombre para encontrarlo después.</p></div><label>Concepto<input id="concept" maxlength="80" required placeholder="Ej. Cena, trabajo web…" autocomplete="off"></label><label>Categoría<select id="category"></select></label></section>
+      <section class="step" data-step="4"><div class="stepcopy"><span class="mini">FINAL</span><h2>Un último detalle</h2><p>Indica cómo se hizo y cuándo.</p></div><label>Método<select id="method"><option>Tarjeta</option><option>Banco</option><option>Efectivo</option><option>Bizum</option><option>Otro</option></select></label><label>Fecha<input id="date" type="datetime-local" required></label><div class="summary" id="summary"></div></section>
+    </div>
+    <div class="wizard-actions"><button type="button" class="secondary" id="nextStep">Continuar</button><button type="submit" class="save hidden">Guardar movimiento</button></div>
   </form>
 </div>
-
 <script src="app.js"></script>
 </body>
 </html>
