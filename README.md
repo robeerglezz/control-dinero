@@ -1,30 +1,29 @@
-# MiDinero PWA
+# MiDinero — PWA sincronizada
 
-## Qué es
-PWA de control personal de dinero, optimizada para iPhone.
+PWA móvil-first para controlar ingresos y gastos.
 
 ## Funciones
-- Saldo total, ingresos y gastos.
-- Registro de ingresos/gastos.
-- Categorías y métodos.
-- Historial, búsqueda y filtros.
-- Estadísticas del mes.
-- Modo oscuro/claro.
-- Datos guardados localmente en el dispositivo.
-- Funciona offline tras la primera carga.
-- Exportación CSV para abrir en Numbers.
+- Registro paso a paso: tipo → cantidad → concepto/categoría → método/fecha → revisión.
+- Saldo, ingresos, gastos, resumen mensual e historial.
+- Búsqueda, filtros, borrado y exportación CSV.
+- Inicio de sesión con email y contraseña.
+- Sincronización entre iPhone, PC y otros dispositivos mediante Supabase.
+- Los movimientos se cifran en el navegador con AES-256-GCM antes de subirse. La base de datos no guarda el concepto/categoría/método en texto legible.
+- RLS: cada usuario solo puede leer/escribir sus propios registros.
+- Copia local para tolerar cortes de conexión.
 
-## Privacidad
-No contiene analítica, publicidad ni código de seguimiento. En esta versión los movimientos se almacenan con `localStorage` en el navegador del dispositivo. No se envían a un servidor.
+## Configuración de Supabase
+1. Crea un proyecto en Supabase.
+2. En **SQL Editor**, ejecuta `supabase.sql`.
+3. Copia `config.example.js` a `config.js`.
+4. En `config.js`, pon la URL del proyecto y la clave pública/anon del proyecto.
+5. Sube todos los archivos a GitHub Pages.
 
-## Instalar en iPhone
-1. Sube todos los archivos a un hosting con HTTPS.
-2. Abre la web en Safari del iPhone.
-3. Pulsa Compartir → Añadir a pantalla de inicio.
-4. Ábrela desde el icono como una app.
+### Importante sobre el cifrado
+La contraseña de tu cuenta se usa para derivar la clave de cifrado de los movimientos mediante PBKDF2 + SHA-256. La clave no se envía a Supabase. Si pierdes la contraseña, los movimientos cifrados no se pueden recuperar desde la nube.
 
-## Numbers
-Pulsa "Exportar" para crear `MiDinero.csv` y ábrelo con Numbers.
+## Datos existentes
+Al iniciar sesión, si ya tenías movimientos guardados localmente, la app intenta subirlos a tu cuenta y después descarga la copia sincronizada.
 
-## Nube
-Esta versión es deliberadamente local para mantener privacidad y cero coste. Una sincronización real entre dispositivos requiere un servicio de almacenamiento/sincronización; no se debe hacer pasar una PWA por conectada directamente a un archivo `.numbers`, porque Apple no ofrece una API web pública general para escribir ese formato.
+## Supabase gratis
+La aplicación usa el cliente web de Supabase. El alojamiento/base de datos está sujeto a los límites y condiciones vigentes del plan de Supabase.
